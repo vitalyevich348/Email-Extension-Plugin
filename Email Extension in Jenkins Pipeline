@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+
+    environment {
+        EMAIL_RECIPIENTS = "dev-team@yourcompany.com"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building project...'
+                // Здесь могут быть другие шаги для сборки
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Здесь могут быть шаги для тестирования
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                emailext(
+                    subject: "Build #${env.BUILD_NUMBER} - ${env.JOB_NAME} - SUCCESS",
+                    body: """
+                        <h3>Build was successful!</h3>
+                        <p>Click <a href="${env.BUILD_URL}">here</a> to view the build details.</p>
+                    """,
+                    to: "${EMAIL_RECIPIENTS}"
+                )
+            }
+        }
+        failure {
+            script {
+                emailext(
+                    subject: "Build #${env.BUILD_NUMBER} - ${env.JOB_NAME} - FAILURE",
+                    body: """
+                        <h3>Build failed</h3>
+                        <p>Click <a href="${env.BUILD_URL}">here</a> to view the build details.</p>
+                    """,
+                    to: "${EMAIL_RECIPIENTS}"
+                )
+            }
+        }
+        unstable {
+            script {
+                emailext(
+                    subject: "Build #${env.BUILD_NUMBER} - ${env.JOB_NAME} - UNSTABLE",
+                    body: """
+                        <h3>Build is unstable</h3>
+                        <p>Click <a href="${env.BUILD_URL}">here</a> to view the build details.</p>
+                    """,
+                    to: "${EMAIL_RECIPIENTS}"
+                )
+            }
+        }
+        always {
+            script {
+                emailext(
+                    subject: "Build #${env.BUILD_NUMBER} - ${env.JOB_NAME} - COMPLETED",
+                    body: """
+                        <h3>Build completed</h3>
+                        <p>Click <a href="${env.BUILD_URL}">here</a> to view the build details.</p>
+                    """,
+                    to: "${EMAIL_RECIPIENTS}"
+                )
+            }
+        }
+    }
+}
