@@ -1,0 +1,17 @@
+# In the Email Extension settings, you can specify the following:
+
+Recipients: dev-team@yourcompany.com
+Subject: Build #$BUILD_NUMBER - $PROJECT_NAME - $BUILD_STATUS
+Body:
+    <h3>Build $BUILD_STATUS for $PROJECT_NAME (#$BUILD_NUMBER)</h3>
+    <p><a href="$BUILD_URL">Click here to view the build details</a></p>
+    <p>Build completed at $BUILD_TIME.</p>
+    <p>Changes:</p>
+    <pre>$CHANGES</pre>
+
+Triggers:
+- Success: Send if the build is successful
+- Failure: Send if the build fails
+- Unstable: Send if the result is unstable
+- Aborted: Send if the build was canceled
+- Always: Send always, regardless of the result
