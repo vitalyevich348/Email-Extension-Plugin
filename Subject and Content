@@ -1,0 +1,5 @@
+<h3>Build $BUILD_STATUS for $PROJECT_NAME ($BUILD_NUMBER)</h3>
+<p><a href="$BUILD_URL">Click here to view the build details</a></p>
+<p>Build completed at $BUILD_TIME.</p>
+<p>Changes:</p>
+<pre>$CHANGES</pre>
